@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment, useContext } from 'react';
-import firebase, { functions, firestore } from './firebase';
+import firebase, { functions } from './firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from './auth/Auth';
 const moment = require('moment');
@@ -72,35 +72,17 @@ function SnapshotFirebaseAdvanced() {
         console.error(err);
       });
   }
-
-  // EDIT FUNCTION
-  // function editDevice(device) {
-  //   const newState = !online;
-  //   setOnline(newState);
-  //   const updatedDevice = {
-  //     online: newState,
-  //     lastUpdate: moment.utc().format(moment.HTML5_FMT.DATETIME_LOCAL_MS),
-  //   };
-  //   setLoading();
-  //   ref
-  //     .doc(device.id)
-  //     .update(updatedDevice)
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // };
+  
   // http callable function
   const sayHello = functions.httpsCallable('sayHello');
   const readState = functions.httpsCallable('getOnlineState');
   const writeState = functions.httpsCallable('setOnlineState');
 
-  const getOnlineState = (device) => {
-    readState(device)
-      .then(result => {
-        console.log(result);
-        console.log(`current online state: ${result.data}`);
-      });
-  }
+  const getOnlineState = async (device) => {
+    const response = await readState(device)
+      console.log(response);
+  };
+  
   const setOnlineState = (device) => {
     //var context = { auth: currentUser };
     writeState(device)
@@ -117,24 +99,30 @@ function SnapshotFirebaseAdvanced() {
     //   });
 
     // test for rollbackOnlineState
-    const ref = firebase.firestore().collection('devices');
-    ref
-      .where('online', '==', true)
-      .onSnapshot(snapshot => {
-        snapshot.forEach(doc => {
-          const device = doc.data();
-          console.log(device);
-          const diff = moment().utc().diff(moment.utc(device.lastUpdate), 'minutes');
-          if (diff >= 1) {
-            ref.doc(device.id).update({
-              online: false,
-              lastUpdate: moment.utc().format(moment.HTML5_FMT.DATETIME_LOCAL_MS)
-            });
-            console.log("update success");
-          }
-        })
-      });
+    // const ref = firebase.firestore().collection('devices');
+    // ref
+    //   .where('online', '==', true)
+    //   .onSnapshot(snapshot => {
+    //     snapshot.forEach(doc => {
+    //       const device = doc.data();
+    //       console.log(device);
+    //       const diff = moment().utc().diff(moment.utc(device.lastUpdate), 'minutes');
+    //       if (diff >= 1) {
+    //         ref.doc(device.id).update({
+    //           online: false,
+    //           lastUpdate: moment.utc().format(moment.HTML5_FMT.DATETIME_LOCAL_MS)
+    //         });
+    //         console.log("update success");
+    //       }
+    //     })
+    //   });
 
+    const test = JSON.stringify({
+      "result": "success",
+      "online": false,
+      "date": new Date()
+    });
+    console.log(test);
   }
 
   // useEffect(() => {

@@ -37,22 +37,25 @@ exports.getOnlineState = functions.https.onCall( async (data, context) => {
     throw new functions.https.HttpsError('failed-precondition', 'The function must be called with Device infomation');
   }
 
-  db
-    .collection("devices")
-    .doc(data.id)
-    .get()
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch(err => {
-      console.log(err);
-      return { 
-        error : err,
-        success: false, 
-        message: '' 
-      };
-    });
+  try {
+    const info = await db.collection("devices").doc(data.id).get();
+    
+    console.log(info.data().online);
+
+    return {          
+      'success': true, 
+      'online': info.data().online
+      
+    }
+    
+  }catch(err){
+    console.log(err);
+    return { 
+      error : err,
+      success: false, 
+      message: '' 
+    };
+  };
 });
 
 exports.setOnlineState = functions.https.onCall(async (data, context) => {

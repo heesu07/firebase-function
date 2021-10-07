@@ -46,7 +46,7 @@ const Login = () => {
   if(currentUser != null){
     return (
       <>
-        <a className="logout" onClick={logOut}> Logout </a>
+        <a className="logout" href="section" onClick={logOut}> Logout </a>
       </>
     );
   }

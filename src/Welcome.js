@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { AuthContext } from "./auth/Auth";
-import firebase from './firebase';
 //const firebase = require("firebase-function");
 // Required for side-effects
 require("firebase/functions");
