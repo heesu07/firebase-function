@@ -6,12 +6,12 @@ import "firebase/functions"
 
 
 const functionsConfig = {
-  apiKey: "AIzaSyCof-erH69cwajvtC9wcKnSAprPpDgVFNc",
-  authDomain: "tutorial-functions-b4b13.firebaseapp.com",
-  projectId: "tutorial-functions-b4b13",
-  storageBucket: "tutorial-functions-b4b13.appspot.com",
-  messagingSenderId: "987555003778",
-  appId: "1:987555003778:web:b5814e285d06196517639b"
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
+  appId: process.env.REACT_APP_MESSAGING_APP_ID
 };
 
 firebase.initializeApp(functionsConfig);
